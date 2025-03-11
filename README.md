@@ -1,6 +1,6 @@
 # Autonomous Systems Project Team 08
 
-# 🚀 Milestone 2 - 
+# 🚀 Milestone 2 - Not fully Updated 
 
 ## 📌 Overview
 Milestone 2 focuses on advancing the autonomous system with enhancements in software, simulation, and real-world testing. This phase includes crucial improvements in **teleoperation**, **OLR (Open Loop Response)**, and system integration.
