@@ -43,6 +43,9 @@ def move_audibot():
     brake_pub = rospy.Publisher("/brake_cmd", Float64, queue_size=10)
     gear_pub = rospy.Publisher("/gear_cmd", UInt8, queue_size=10)
 
+    # Subscribe to odometry
+    rospy.Subscriber("/odom", Odometry, odom_callback)
+
     rospy.sleep(2)  # Give time for publishers to register
 
     brake_value = 0.0
@@ -71,12 +74,12 @@ def move_audibot():
         throttle_pub.publish(Float64(throttle_value))
         brake_pub.publish(Float64(brake_value))  # Ensure brake is released
         
-        rospy.sleep(0.1)
+        rate.sleep()  # Maintain loop rate
     
     rospy.loginfo("Stopping the car")
     throttle_pub.publish(Float64(0.0))  # Stop the car when done
     
-    rospy.spin()
+    rospy.spin()  # Keep the node alive to continue processing odometry updates
 
 
 if __name__ == "__main__":
