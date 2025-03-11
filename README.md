@@ -3,7 +3,7 @@
 # 🚀 Milestone 2 - Not fully Updated 
 
 ## 📌 Overview
-Milestone 2 focuses on advancing the autonomous system with enhancements in software, simulation, and real-world testing. This phase includes crucial improvements in **teleoperation**, **OLR (Open Loop Response)**, and system integration.
+Milestone 2 focuses on enhancements in software, simulation, and Hardware testing of the vehicle and motors. This phase includes crucial improvements in **Teleop**, **OLR (Open Loop Response)**, and system integration.
 
 ## 📁 Project Structure
 The following key components are included in this milestone:
