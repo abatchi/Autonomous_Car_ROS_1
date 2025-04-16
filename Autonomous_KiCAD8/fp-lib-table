@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Autonomous_PCB_lib")(type "KiCad")(uri "${KIPRJMOD}/Autonomous_PCB_lib.pretty")(options "")(descr ""))
+)
