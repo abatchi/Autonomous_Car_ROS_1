@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<launch>
+      <!-- 1. Start Gazebo with an empty world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+  
+  
+  <!-- 2. Then spawn AudiBot -->
+  <include file="$(find audibot_gazebo)/launch/audibot_robot.launch" >
+    <arg name="start_x" value="0" />
+    <arg name="start_y" value="0" />
+    <arg name="start_z" value="0" />
+    <arg name="start_yaw" value="0" />
+    <arg name="pub_tf" value="true" />
+    <arg name="tf_freq" value="100.0" />
+    <arg name="blue" value="false" />
+  </include>
+
+    <!-- Speed Controller Node -->
+    <node pkg="autonomous_system_project_team_08" 
+          type="Autonomous_Systems_MS_3_CLR_Alg1_Speed_Team_08.py" 
+          name="speed_controller" 
+          output="screen">
+        
+        <param name="Kp" value="0.1" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.01" />
+        <param name="min_throttle" value="0.0" />
+        <param name="max_throttle" value="1.0" />
+        <param name="brake_gain" value="0.5" />
+    </node>
+
+    <!-- Lateral Controller Node -->
+    <node pkg="autonomous_system_project_team_08" 
+          type="Autonomous_Systems_MS_3_CLR_Alg2_Lateral_Team_08.py" 
+          name="lateral_controller" 
+          output="screen">
+        
+        <param name="k" value="20" />
+        <param name="epsilon" value="0.01" />
+        <param name="max_steer" value="1.5" />
+        <param name="desired_lane" value="2.0" />
+    </node>
+
+    <!-- Visualization Tools -->
+    <node name="rqt_graph" pkg="rqt_graph" type="rqt_graph" />
+    <node name="rqt_console" pkg="rqt_console" type="rqt_console" />
+
+</launch>

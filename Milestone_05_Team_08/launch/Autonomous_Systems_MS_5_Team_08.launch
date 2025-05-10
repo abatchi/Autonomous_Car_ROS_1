@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 1. Start Gazebo with your Racing World -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find autonomous_system_project_team_08)/Worlds/Racing_World.world" />
+    </include>
+
+    <!-- 2. Then spawn AudiBot -->
+    <include file="$(find audibot_gazebo)/launch/audibot_robot.launch">
+        <arg name="start_x" value="0" />
+        <arg name="start_y" value="0" />
+        <arg name="start_z" value="0" />
+        <arg name="start_yaw" value="0" />
+        <arg name="pub_tf" value="true" />
+        <arg name="tf_freq" value="100.0" />
+        <arg name="blue" value="false" />
+    </include>
+
+
+
+    <!-- 3. Speed Controller Node -->
+    <node pkg="autonomous_system_project_team_08" 
+          type="Autonomous_Systems_MS_3_CLR_Alg1_Speed_Team_08.py" 
+          name="speed_controller" 
+          output="screen">
+
+        <param name="desired_speed" value="0.0" />
+        <param name="Kp" value="2.5" />
+        <param name="Ki" value="0.25" />
+        <param name="Kd" value="0.05" />
+        <param name="min_throttle" value="0.0" />
+        <param name="max_throttle" value="1" />
+        <param name="brake_gain" value="1.5" />
+    </node>
+
+    <!-- 4. Lateral Controller Node -->
+    <node pkg="autonomous_system_project_team_08" 
+          type="Autonomous_Systems_MS_4_CLR_Alg2_Lateral_Team_08.py" 
+          name="lateral_controller" 
+          output="screen">
+
+
+            <!-- Stanley control gains -->
+        <param name="k"                     value="0.35" />  
+        <param name="heading_gain"         value="0.5"  />  <!-- heading‐error weight -->
+        <param name="cross_track_gain"     value="1.0"  />  <!-- Stanley cross-track weight -->
+        <param name="kd_lateral"           value="0.05" />  <!-- derivative gain on CTE -->
+        
+        <!-- Speed floor to avoid divide-by-zero -->
+        <param name="epsilon"              value="0.01" />
+        
+        <!-- Command smoothing and limits -->
+        <param name="max_steer"            value="0.2"  />  <!-- max steering angle [rad] -->
+        <param name="steering_filter_alpha" value="0.8"  />  <!-- exponential smoothing factor -->
+        
+        <!-- Initial lane set-point -->
+        <param name="desired_lane"         value="0.0"  />  <!-- start in center lane -->
+    </node>
+
+
+    <!-- 5. Path-Planning Node -->
+    <node pkg="autonomous_system_project_team_08" 
+          type="Autonomous_Systems_MS_4_Planning_Team_08.py" 
+          name="path_planner" 
+          output="screen">
+        
+        <param name="lane_1" value="2.5" />
+        <param name="lane_2" value="-2.5" />
+        <param name="lane_3" value="0.0" />
+        <param name="obstacle_positions" value="[250.0, 500.0]" />
+
+        <param name="lane_change_distance" value="100.0" />
+        <param name="normal_speed" value="25.0" />
+        <param name="lane_change_speed" value="15.0" />
+
+    </node>
+
+    <!-- 6. Localization Node -->
+    <node pkg="autonomous_system_project_team_08" 
+          type="Autonomous_Systems_MS_5_Localization_Team_08.py" 
+          name="Loaclization" 
+          output="screen">
+        
+
+    </node>
+
+    <!-- Visualization Tools -->
+    <node name="rqt_graph" pkg="rqt_graph" type="rqt_graph" />
+
+</launch>

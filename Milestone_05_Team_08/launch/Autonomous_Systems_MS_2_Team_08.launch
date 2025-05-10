@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Step 1: Spawn Audibot Model in Gazebo -->
+    <include file="$(find audibot_gazebo)/launch/single_vehicle_example.launch"/>
+    
+    <param name="use_sim_time" value="true"/>  <!-- Ensure ROS uses simulation time -->
+
+    <!-- Step 2: Choose Driving Mode -->
+    <arg name="driving_mode" default="TELEOP"/>
+
+    <!-- Step 3: Parameters for OLR -->
+    <arg name="olr_initial_throttle" default="0.1"/>
+    <arg name="olr_initial_steering" default="0.0"/>
+    <arg name="olr_throttle_step" default="0.01"/>
+    <arg name="olr_steering_step" default="0.01"/>
+    <arg name="olr_max_throttle" default="0.7"/>
+    <arg name="olr_max_steering" default="1.5"/>
+
+    <!-- Step 4: Ensure Nodes Start Properly -->
+    <group if="$(eval driving_mode == 'OLR')">
+        <node name="Autonomous_Systems_MS_2_OLR_Team_08"
+              pkg="autonomous_system_project_team_08"
+              type="Autonomous_Systems_MS_2_OLR_Team_08.py"
+              output="screen"
+              required="true">
+            <param name="initial_throttle" value="$(arg olr_initial_throttle)"/>
+            <param name="initial_steering" value="$(arg olr_initial_steering)"/>
+            <param name="throttle_step" value="$(arg olr_throttle_step)"/>
+            <param name="steering_step" value="$(arg olr_steering_step)"/>
+            <param name="max_throttle" value="$(arg olr_max_throttle)"/>
+            <param name="max_steering" value="$(arg olr_max_steering)"/>
+        </node>
+    </group>
+
+    <group if="$(eval driving_mode == 'TELEOP')">
+        <node name="Autonomous_Systems_MS_2_Teleop_Team_08"
+              pkg="autonomous_system_project_team_08"
+              type="Autonomous_Systems_MS_2_Teleop_Team_08.py"
+              output="screen"
+              required="true"/>
+    </group>
+
+    <!-- Step 5: Debugging -->
+    <node name="rqt_graph_node" pkg="rqt_graph" type="rqt_graph" output="screen"/>
+</launch>
