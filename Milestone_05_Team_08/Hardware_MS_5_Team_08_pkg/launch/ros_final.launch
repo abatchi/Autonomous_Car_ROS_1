@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="final_autonomus_project" type="speed_control.py" name="speed_control" output="screen"/>
+    <node pkg="final_autonomus_project" type="lateral_control.py" name="lateral_control" output="screen"/>
+    <node pkg="final_autonomus_project" type="ros_receiver.py" name="ros_receiver" output="screen"/>
+    <node pkg="final_autonomus_project" type="path_planning.py" name="path_planning" output="screen"/>
+</launch>
+
